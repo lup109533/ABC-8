@@ -1,0 +1,49 @@
+#00 branch
+00000	nop
+00001	jmp
+00010	beq
+00011	bne
+00100	blt
+00101	bgt
+00110	ble
+00111	bge
+
+#01 general
+01000	ldr
+01001	str
+01010	ldm
+01011	stm
+01100	mul
+01101	div
+01110	cmp
+01111	set
+
+#10 ALU
+10000	add
+10001	sub
+10010	sll
+10011	srl
+10100	sra
+10101	and
+10110	orr
+10111	xor
+
+#11 immediate
+11000	add.i
+11001	sub.i
+11010	sll.i
+11011	srl.i
+11100	sra.i
+11101	and.i
+11110	orr.i
+11111	xor.i
+
+#Modes
+000	unsigned 8-bit
+001	unsigned 16-bit
+010	float16
+011	sleep
+100	signed 8-bit
+101	signed 16-bit
+110	float16
+111	reset
