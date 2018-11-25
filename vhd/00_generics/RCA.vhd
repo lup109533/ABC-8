@@ -69,7 +69,7 @@ end entity;
 
 architecture structural of RCA is
 
-	signal carry : slv(N-2 downto 0);
+	signal carry : slv(N-1 downto 0);
 
 begin
 	
@@ -106,6 +106,6 @@ begin
 			);
 		end generate;
 	end generate;
-	CO <= carry(N-2);
+	CO <= carry(N-1);
 
 end architecture;

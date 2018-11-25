@@ -15,12 +15,15 @@ package utils is
 	
 	function min               (a, b : integer)              return integer;
 	function max               (a, b : integer)              return integer;
+	function log2              (n : integer)                 return integer;
 	function clamp             (n, a, b : integer)           return integer;
 	function to_slv            (n : natural; size : natural) return slv;
+	function to_int            (v : slv)                     return integer;
 	function to_byte_pair      (w : word16)                  return byte_pair;
 	function to_word16         (p : byte_pair)               return word16;
 	function to_vec            (l : sl)                      return slv;
 	function zero              (n : natural)                 return slv;
+	function fill              (l : sl; n : natural)         return slv;
 	function priority_low2high (v : slv)                     return integer;
 	function priority_high2low (v : slv)                     return integer;
 end package;
@@ -42,6 +45,17 @@ package body utils is
 		else
 			return b;
 		end if;
+	end function;
+	
+	function log2 (n : integer) return integer is
+		variable tmp	: integer := n;
+		variable ret	: integer := 0;
+	begin
+		while (tmp >= 2) loop
+			ret := ret + 1;
+			tmp := tmp / 2;
+		end loop;
+		return ret;
 	end function;
 	
 	function clamp (n, a, b : integer) return integer is
@@ -78,6 +92,11 @@ package body utils is
 		return b;
 	end function;
 	
+	function to_int (v : slv) return integer is
+	begin
+		return to_integer(unsigned(v));
+	end function;
+	
 	function to_word16 (p : byte_pair) return word16 is
 		variable w : word16;
 	begin
@@ -95,6 +114,12 @@ package body utils is
 	
 	function zero (n : natural) return slv is
 		variable ret : slv(n-1 downto 0) := (others => '0');
+	begin
+		return ret;
+	end function;
+	
+	function fill (l : sl; n : natural) return slv is
+		variable ret : slv(n-1 downto 0) := (others => l);
 	begin
 		return ret;
 	end function;
@@ -150,7 +175,7 @@ package ABC8_globals is
 	subtype  LO_BYTE		is natural range 7  downto 0;
 	subtype  HI_BYTE		is natural range 15 downto 8;
 	subtype  OPCODE_RANGE	is natural range 7  downto 3;
-	subtype  OPTYPE_RANGE	is natural range 7  downto 6;
+	subtype  OPTYPE_RANGE	is natural range 4  downto 3;
 	subtype  REG_ADDR_RANGE	is natural range 2  downto 0;
 	subtype  MODE_RANGE		is natural range 2  downto 0;
 	constant SIGN_FLAG_BIT   : natural := 0;
@@ -215,7 +240,7 @@ package ABC8_globals is
 	constant MODE_U16	: ABC8_mode_t := to_slv(2#010#, 3);
 	constant MODE_S16	: ABC8_mode_t := to_slv(2#011#, 3);
 	constant MODE_F16	: ABC8_mode_t := to_slv(2#100#, 3);
-	constant MODE_RSRV	: ABC8_mode_t := to_slv(2#101#, 3);
+	constant MODE_SAFE	: ABC8_mode_t := to_slv(2#101#, 3);
 	constant MODE_SLEEP	: ABC8_mode_t := to_slv(2#110#, 3);
 	constant MODE_RESET	: ABC8_mode_t := to_slv(2#111#, 3);
 	

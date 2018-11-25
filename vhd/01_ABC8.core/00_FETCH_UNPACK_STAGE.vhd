@@ -90,7 +90,9 @@ begin
 	end process;
 	
 	is_imm_instr	<= '1' when (state = NORMAL and optype_s = I_TYPE) else
-					   '1' when (state = IMM_16_BIT_LO)              else
+					   '1' when (state = NORMAL and opcode_s = LDM)    else
+					   '1' when (state = NORMAL and opcode_s = STM)    else
+					   '1' when (state = IMM_16_BIT_LO)                else
 					   '0';
 					   
 	is_16bit		<= '1' when (state = IMM_16_BIT_LO) else
@@ -125,9 +127,9 @@ begin
 	---- UNPACK INSTRUCTION
 	--------------------------
 	opcode_s	<= instr(OPCODE_RANGE);
-	optype_s	<= instr(OPTYPE_RANGE);
 	mode_s		<= instr(MODE_RANGE);
 	reg_addr_s	<= instr(REG_ADDR_RANGE);
+	optype_s	<= opcode_s(OPTYPE_RANGE);
 	
 	
 	---- PC
@@ -183,6 +185,8 @@ begin
 	---- OUTPUTS
 	---------------
 	ready_s	<= '1' when (state = NORMAL and optype_s /= I_TYPE) else
+			   '1' when (state = NORMAL and opcode_s /= LDM)    else
+			   '1' when (state = NORMAL and opcode_s /= STM)    else
 			   '1' when (state = IMM_8_BIT)                     else
 			   '1' when (state = IMM_16_BIT_HI)                 else
 			   '0';
