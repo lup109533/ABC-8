@@ -18,7 +18,8 @@ end entity;
 
 architecture structural of CLA is
 
-	constant BLOCKS_NUM	: natural := N / (2**RADIX);
+	constant BLOCKS_NUM : natural := N / 2**RADIX;
+	constant BLOCK_SIZE	: natural := N / BLOCKS_NUM;
 	constant TREE_DEPTH	: natural := log2(BLOCKS_NUM);
 	
 	type pre_compression_array is array (natural range <>) of slv(N-1 downto 0);
@@ -70,7 +71,7 @@ begin
 	sum_generator_gen: entity work.SUM_GENERATOR(structural)
 	generic map (
 		N			=> N,
-		BLOCK_SIZE	=> 2**RADIX
+		BLOCK_SIZE	=> BLOCK_SIZE
 	)
 	port map (
 		A	=> A,

@@ -11,8 +11,7 @@ entity SUM_GENERATOR is
 		A	: in	slv(N-1 downto 0);
 		B	: in	slv(N-1 downto 0);
 		CI	: in	slv((N/BLOCK_SIZE)-1 downto 0);
-		S	: out	slv(N-1 downto 0);
-		CO	: out	sl
+		S	: out	slv(N-1 downto 0)
 	);
 end entity;
 

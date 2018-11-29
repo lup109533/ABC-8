@@ -23,6 +23,9 @@ architecture structural of SPARSE_TREE is
 
 begin
 
+	g(0) <= GIN;
+	p(0) <= PIN;
+
 	tree_gen: for i in 0 to ROWS_NUM-1 generate
 		row_i: entity work.SPARSE_TREE_ROW(structural)
 		generic map (
